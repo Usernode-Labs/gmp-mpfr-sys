@@ -1269,6 +1269,7 @@ fn system_cache_dir() -> Option<PathBuf> {
     #[cfg(target_os = "windows")]
     {
         use core::mem::MaybeUninit;
+        use core::ptr;
         use core::slice;
         use std::os::windows::ffi::OsStringExt;
         use windows_sys::Win32::Foundation::S_OK;
@@ -1278,7 +1279,12 @@ fn system_cache_dir() -> Option<PathBuf> {
 
         unsafe {
             let mut path = MaybeUninit::uninit();
-            if Shell::SHGetKnownFolderPath(&FOLDERID_LocalAppData, 0, 0, path.as_mut_ptr()) != S_OK
+            if Shell::SHGetKnownFolderPath(
+                &FOLDERID_LocalAppData,
+                0,
+                ptr::null_mut(),
+                path.as_mut_ptr(),
+            ) != S_OK
             {
                 return None;
             }
