@@ -39,4 +39,4 @@ fail-on-warnings = []
 
 [target.'cfg(target_os = "windows")'.build-dependencies.windows-sys]
 features = ["Win32_Foundation", "Win32_Globalization", "Win32_System_Com", "Win32_UI_Shell"]
-version = "0.52"
+version = "0.59"
