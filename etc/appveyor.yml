@@ -15,7 +15,7 @@ environment:
   MSRV: 1.65.0
   matrix:
     - CI_OS: mac
-      APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+      APPVEYOR_BUILD_WORKER_IMAGE: macos-sonoma
     - CI_OS: mac
       APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
     - CI_OS: win
@@ -31,19 +31,6 @@ environment:
       MSYSTEM_CHOST: x86_64-w64-mingw32
       MSYSTEM_PREFIX: C:/msys64/mingw64
       PKG_CONFIG_PATH: C:\msys64\mingw64\lib\pkgconfig;C:\msys64\mingw64\share\pkgconfig
-    - CI_OS: win
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
-      CC: clang
-      HOST: i686-pc-windows-gnu
-      CONFIG_SITE: C:/msys64/mingw32/etc/config.site
-      MINGW_CHOST: i686-w64-mingw32
-      MINGW_PACKAGE_PREFIX: mingw-w64-i686
-      MINGW_PREFIX: C:/msys64/mingw32
-      MSYSTEM: MINGW32
-      MSYSTEM_CARCH: i686
-      MSYSTEM_CHOST: i686-w64-mingw32
-      MSYSTEM_PREFIX: C:/msys64/mingw32
-      PKG_CONFIG_PATH: C:\msys64\mingw32\lib\pkgconfig;C:\msys64\mingw32\share\pkgconfig
 
 build: false
 
