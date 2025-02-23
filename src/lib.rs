@@ -208,16 +208,13 @@ xcode-select --install
 spaces.
 
 You can build on Windows with the Rust GNU toolchain and an up-to-date
-MSYS2 installation. Some steps for a 64-bit environment are listed
-below. (32-bit: Changes for a 32-bit environment are written in
-brackets like this comment.)
+MSYS2 installation.
 
 To install MSYS2:
 
  1. Install MSYS2 using the [installer][msys].
 
- 2. Launch the MSYS2 MinGW 64-bit terminal from the start
-    menu. (32-bit: Launch the MSYS2 MinGW 32-bit terminal instead.)
+ 2. Launch the MSYS2 MinGW 64-bit terminal from the start menu.
 
  3. Install the required tools.
 
@@ -226,21 +223,17 @@ To install MSYS2:
     pacman -S diffutils m4 make mingw-w64-x86_64-gcc
     ```
 
-    (32-bit: Install `mingw-w64-i686-gcc` instead of
-    `mingw-w64-x86_64-gcc`.)
-
 Then, to build a crate with a dependency on this crate:
 
  1. Launch the MSYS2 MinGW 64-bit terminal from the start menu.
-    (32-bit: Launch the MSYS2 MinGW 32-bit terminal instead.)
 
  2. Change to the crate directory.
 
  3. Build the crate using `cargo`.
 
 Note that you can use Clang instead of GCC by installing
-`mingw-w64-x86_64-clang` (32-bit: `mingw-w64-i686-clang`) and setting the
-environment variable `CC=clang` before building the crate.
+`mingw-w64-x86_64-clang` and setting the environment variable `CC=clang` before
+building the crate.
 
 ## Cross compilation
 
