@@ -1,8 +1,8 @@
 <!-- This manual documents how to install and use the Multiple Precision
-Floating-Point Reliable Library, version 4.2.1.
-Copyright 1991, 1993-2023 Free Software Foundation, Inc.
+Floating-Point Reliable Library, version 4.2.2.
+Copyright 1991, 1993-2025 Free Software Foundation, Inc.
 Permission is granted to copy, distribute and/or modify this document under
-the terms of the GNU Free Documentation License, Version 1.2 or any later
+the terms of the GNU Free Documentation License, Version 1.3 or any later
 version published by the Free Software Foundation; with no Invariant Sections,
 with no Front-Cover Texts, and with no Back-Cover Texts.  A copy of the
 license is included in GNU Free Documentation License. -->
@@ -264,7 +264,7 @@ Next: <a href="#Combined-Initialization-and-Assignment-Functions" accesskey="n" 
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fset_005fflt"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_set_flt</strong> <code class="def-code-arguments">(mpfr_t <var class="var">rop</var>, float <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fset_005fflt"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fset_005fd"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_set_d</strong> <code class="def-code-arguments">(mpfr_t <var class="var">rop</var>, double <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fset_005fd"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fset_005fld"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_set_ld</strong> <code class="def-code-arguments">(mpfr_t <var class="var">rop</var>, long double <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fset_005fld"> &para;</a></span></dt>
-<dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fset_005ffloat128"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_set_float128</strong> <code class="def-code-arguments">(mpfr_t <var class="var">rop</var>, _Float128 <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fset_005ffloat128"> &para;</a></span></dt>
+<dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fset_005ffloat128"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_set_float128</strong> <code class="def-code-arguments">(mpfr_t <var class="var">rop</var>, mpfr_float128 <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fset_005ffloat128"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fset_005fdecimal64"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_set_decimal64</strong> <code class="def-code-arguments">(mpfr_t <var class="var">rop</var>, _Decimal64 <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fset_005fdecimal64"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fset_005fdecimal128"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_set_decimal128</strong> <code class="def-code-arguments">(mpfr_t <var class="var">rop</var>, _Decimal128 <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fset_005fdecimal128"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fset_005fz"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_set_z</strong> <code class="def-code-arguments">(mpfr_t <var class="var">rop</var>, mpz_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fset_005fz"> &para;</a></span></dt>
@@ -276,12 +276,7 @@ Note that the input 0 is converted to +0 by <code class="code">mpfr_set_ui</code
 <code class="code">mpfr_set_si</code>, <code class="code">mpfr_set_uj</code>, <code class="code">mpfr_set_sj</code>,
 <code class="code">mpfr_set_z</code>, <code class="code">mpfr_set_q</code> and
 <code class="code">mpfr_set_f</code>, regardless of the rounding mode.
-The <code class="code">mpfr_set_float128</code> function is built only with the configure
-option &lsquo;<samp class="samp">--enable-float128</samp>&rsquo;, which requires the compiler or
-system provides the &lsquo;<samp class="samp">_Float128</samp>&rsquo; data type
-(GCC 4.3 or later supports this data type);
-to use <code class="code">mpfr_set_float128</code>, one should define the macro
-<code class="code">MPFR_WANT_FLOAT128</code> before including <samp class="file">mpfr.h</samp>.
+To use the <code class="code">mpfr_set_float128</code> function, see <a class="ref" href="constant.MPFR_Basics.html#Nomenclature-and-Types">Nomenclature and Types</a>.
 If the system does not support the IEEE&nbsp;754 standard,
 <code class="code">mpfr_set_flt</code>, <code class="code">mpfr_set_d</code>, <code class="code">mpfr_set_ld</code>,
 <code class="code">mpfr_set_decimal64</code> and <code class="code">mpfr_set_decimal128</code>
@@ -472,7 +467,7 @@ Next: <a href="#Arithmetic-Functions" accesskey="n" rel="next">Arithmetic Functi
 <dt class="deftypefn deftypefun-alias-deftypefn" id="index-mpfr_005fget_005fflt"><span class="category-def">Function: </span><span><code class="def-type">float</code> <strong class="def-name">mpfr_get_flt</strong> <code class="def-code-arguments">(mpfr_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fget_005fflt"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fget_005fd"><span class="category-def">Function: </span><span><code class="def-type">double</code> <strong class="def-name">mpfr_get_d</strong> <code class="def-code-arguments">(mpfr_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fget_005fd"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fget_005fld"><span class="category-def">Function: </span><span><code class="def-type">long double</code> <strong class="def-name">mpfr_get_ld</strong> <code class="def-code-arguments">(mpfr_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fget_005fld"> &para;</a></span></dt>
-<dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fget_005ffloat128"><span class="category-def">Function: </span><span><code class="def-type">_Float128</code> <strong class="def-name">mpfr_get_float128</strong> <code class="def-code-arguments">(mpfr_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fget_005ffloat128"> &para;</a></span></dt>
+<dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fget_005ffloat128"><span class="category-def">Function: </span><span><code class="def-type">mpfr_float128</code> <strong class="def-name">mpfr_get_float128</strong> <code class="def-code-arguments">(mpfr_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fget_005ffloat128"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fget_005fdecimal64"><span class="category-def">Function: </span><span><code class="def-type">_Decimal64</code> <strong class="def-name">mpfr_get_decimal64</strong> <code class="def-code-arguments">(mpfr_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fget_005fdecimal64"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fget_005fdecimal128"><span class="category-def">Function: </span><span><code class="def-type">_Decimal128</code> <strong class="def-name">mpfr_get_decimal128</strong> <code class="def-code-arguments">(mpfr_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005fget_005fdecimal128"> &para;</a></span></dt>
 <dd><p>Convert <var class="var">op</var> to a <code class="code">float</code> (respectively <code class="code">double</code>,
@@ -658,6 +653,11 @@ The pointer to the string <var class="var">str</var> is returned (unless the bas
 <dd><p>Free a string allocated by <code class="code">mpfr_get_str</code> using the unallocation
 function (see <a class="pxref" href="constant.MPFR_Basics.html#Memory-Handling">Memory Handling</a>).
 The block is assumed to be <code class="code">strlen(<var class="var">str</var>)+1</code> bytes.
+</p>
+<p>Note: It is allowed to modify the string allocated by <code class="code">mpfr_get_str</code>;
+but when <code class="code">mpfr_free_str</code> is called, its length must be the same as
+the original one (unless it is guaranteed that the unallocation function
+ignores its size parameter).
 </p></dd></dl>
 <dl class="first-deftypefn first-deftypefun-alias-first-deftypefn">
 <dt class="deftypefn deftypefun-alias-deftypefn" id="index-mpfr_005ffits_005fulong_005fp"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_fits_ulong_p</strong> <code class="def-code-arguments">(mpfr_t <var class="var">op</var>, mpfr_rnd_t <var class="var">rnd</var>)</code><a class="copiable-link" href="#index-mpfr_005ffits_005fulong_005fp"> &para;</a></span></dt>
@@ -1654,7 +1654,11 @@ be supported by your C library if you want to use them.
 not be used with other types.
 </p>
 <p>With conversion specification not involving &lsquo;<samp class="samp">P</samp>&rsquo; and &lsquo;<samp class="samp">R</samp>&rsquo; types,
-<code class="code">mpfr_printf</code> behaves exactly as <code class="code">gmp_printf</code>.
+<code class="code">mpfr_printf</code> behaves exactly as <code class="code">gmp_vasprintf</code> (thus, if GMP
+uses its <code class="code">vsnprintf</code> replacement, the behavior may differ from the
+C library or from other GMP formatted output functions; for instance, in
+such a case, up to GMP&nbsp;6.3.0, the conversion specifiers &lsquo;<samp class="samp">a</samp>&rsquo;/&lsquo;<samp class="samp">A</samp>&rsquo;
+will not work).
 </p>
 <p>Thus the &lsquo;<samp class="samp">conv</samp>&rsquo; specifier &lsquo;<samp class="samp">F</samp>&rsquo; is not supported (due to the use
 of &lsquo;<samp class="samp">F</samp>&rsquo; as the &lsquo;<samp class="samp">type</samp>&rsquo; specifier for <code class="code">mpf_t</code>), except for
@@ -1770,6 +1774,14 @@ outputting the value with a missing precision and reading it back will
 yield the original value.
 </li><li>With &lsquo;<samp class="samp">f</samp>&rsquo;, &lsquo;<samp class="samp">F</samp>&rsquo;, &lsquo;<samp class="samp">g</samp>&rsquo;, and &lsquo;<samp class="samp">G</samp>&rsquo;, it is 6.
 </li></ul>
+<p>For a given number with &lsquo;<samp class="samp">a</samp>&rsquo;/&lsquo;<samp class="samp">A</samp>&rsquo;, 4 exponent values allow the
+first hexadecimal digit to be non-zero as required, and the choice is
+unspecified in ISO C99 and later. In MPFR, the choice currently depends
+on the value of the precision field (zero or non-zero) and on the input
+value. This may change in the future in order to have a more consistent
+behavior. Details and discussion:
+<a class="url" href="https://sympa.inria.fr/sympa/arc/mpfr/2021-05/msg00002.html">https://sympa.inria.fr/sympa/arc/mpfr/2021-05/msg00002.html</a>
+</p>
 </div>
 <div class="subsection-level-extent" id="Functions">
 <h4 class="subsection"><span>5.9.3 Functions<a class="copiable-link" href="#Functions"> &para;</a></span></h4>
@@ -1801,7 +1813,7 @@ occurred.
 <dl class="first-deftypefn first-deftypefun-alias-first-deftypefn">
 <dt class="deftypefn deftypefun-alias-deftypefn" id="index-mpfr_005fsprintf"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_sprintf</strong> <code class="def-code-arguments">(char *<var class="var">buf</var>, const char *<var class="var">template</var>, &hellip;)</code><a class="copiable-link" href="#index-mpfr_005fsprintf"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fvsprintf"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_vsprintf</strong> <code class="def-code-arguments">(char *<var class="var">buf</var>, const char *<var class="var">template</var>, va_list <var class="var">ap</var>)</code><a class="copiable-link" href="#index-mpfr_005fvsprintf"> &para;</a></span></dt>
-<dd><p>Form a null-terminated string corresponding to the optional arguments under
+<dd><p>Form a null-terminated array corresponding to the optional arguments under
 the control of the template string <var class="var">template</var>, and print it in
 <var class="var">buf</var>. No overlap is permitted between
 <var class="var">buf</var> and the other arguments.
@@ -1812,7 +1824,7 @@ the terminating null character or a negative value if an error occurred.
 <dl class="first-deftypefn first-deftypefun-alias-first-deftypefn">
 <dt class="deftypefn deftypefun-alias-deftypefn" id="index-mpfr_005fsnprintf"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_snprintf</strong> <code class="def-code-arguments">(char *<var class="var">buf</var>, size_t <var class="var">n</var>, const char *<var class="var">template</var>, &hellip;)</code><a class="copiable-link" href="#index-mpfr_005fsnprintf"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fvsnprintf"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_vsnprintf</strong> <code class="def-code-arguments">(char *<var class="var">buf</var>, size_t <var class="var">n</var>, const char *<var class="var">template</var>, va_list <var class="var">ap</var>)</code><a class="copiable-link" href="#index-mpfr_005fvsnprintf"> &para;</a></span></dt>
-<dd><p>Form a null-terminated string corresponding to the optional arguments under
+<dd><p>Form a null-terminated array corresponding to the optional arguments under
 the control of the template string <var class="var">template</var>, and print it in
 <var class="var">buf</var>. If <var class="var">n</var> is zero, nothing is
 written and <var class="var">buf</var> may be a null pointer, otherwise, the first
@@ -1825,13 +1837,18 @@ the terminating null character, or a negative value if an error occurred.
 <dl class="first-deftypefn first-deftypefun-alias-first-deftypefn">
 <dt class="deftypefn deftypefun-alias-deftypefn" id="index-mpfr_005fasprintf"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_asprintf</strong> <code class="def-code-arguments">(char **<var class="var">str</var>, const char *<var class="var">template</var>, &hellip;)</code><a class="copiable-link" href="#index-mpfr_005fasprintf"> &para;</a></span></dt>
 <dt class="deftypefnx deftypefunx-alias-deftypefnx def-cmd-deftypefn" id="index-mpfr_005fvasprintf"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_vasprintf</strong> <code class="def-code-arguments">(char **<var class="var">str</var>, const char *<var class="var">template</var>, va_list <var class="var">ap</var>)</code><a class="copiable-link" href="#index-mpfr_005fvasprintf"> &para;</a></span></dt>
-<dd><p>Write their output as a null terminated string in a block of memory allocated
+<dd><p>Write their output as a null-terminated array in a block of memory allocated
 using the allocation function (see <a class="pxref" href="constant.MPFR_Basics.html#Memory-Handling">Memory Handling</a>). A pointer to the
-block is stored in
-<var class="var">str</var>. The block of memory must be freed using <code class="code">mpfr_free_str</code>.
-The return value is the number of characters written in the string, excluding
+block is stored in <var class="var">str</var>. The block of memory must be freed using
+<code class="code">mpfr_free_str</code>, but you must first make sure that it does not contain
+non-terminating null characters or that the unallocation function does not
+use its size argument.
+The return value is the number of characters written in the array, excluding
 the null-terminator, or a negative value if an error occurred, in which case
 the contents of <var class="var">str</var> are undefined.
+Note that this return value may be used to know how many bytes may need to
+be set to a non-zero value (in case &lsquo;<samp class="samp">%c</samp>&rsquo; was used with the value 0)
+before the call to <code class="code">mpfr_free_str</code>.
 </p></dd></dl>
 <hr>
 </div>
@@ -2332,9 +2349,9 @@ return zero otherwise.
 </p></dd></dl>
 <dl class="first-deftypefn first-deftypefun-alias-first-deftypefn">
 <dt class="deftypefn deftypefun-alias-deftypefn" id="index-mpfr_005fbuildopt_005ffloat128_005fp"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_buildopt_float128_p</strong> <code class="def-code-arguments">(void)</code><a class="copiable-link" href="#index-mpfr_005fbuildopt_005ffloat128_005fp"> &para;</a></span></dt>
-<dd><p>Return a non-zero value if MPFR was compiled with &lsquo;<samp class="samp">_Float128</samp>&rsquo; support
-(that is, MPFR was built with the &lsquo;<samp class="samp">--enable-float128</samp>&rsquo; configure option),
-return zero otherwise.
+<dd><p>Return a non-zero value if MPFR was compiled with binary128 support
+(a.k.a. float128), return zero otherwise. See <a class="xref" href="constant.MPFR_Basics.html#Nomenclature-and-Types">Nomenclature and Types</a>
+for additional information.
 </p></dd></dl>
 <dl class="first-deftypefn first-deftypefun-alias-first-deftypefn">
 <dt class="deftypefn deftypefun-alias-deftypefn" id="index-mpfr_005fbuildopt_005fdecimal_005fp"><span class="category-def">Function: </span><span><code class="def-type">int</code> <strong class="def-name">mpfr_buildopt_decimal_p</strong> <code class="def-code-arguments">(void)</code><a class="copiable-link" href="#index-mpfr_005fbuildopt_005fdecimal_005fp"> &para;</a></span></dt>
@@ -2462,7 +2479,7 @@ to nearest.
 this function. <var class="var">rnd</var> and <var class="var">t</var> must be the rounding mode
 and the returned ternary value used when computing <var class="var">x</var>
 (as in <code class="code">mpfr_check_range</code>). The subnormal exponent range is
-from <var class="var">emin</var> to <var class="var">emin</var>+PREC(<var class="var">x</var>)&minus;1<!-- /@w -->.
+from <var class="var">emin</var> to <var class="var">emin</var>+PREC(<var class="var">x</var>)&minus;2<!-- /@w -->.
 If the result cannot be represented in the current exponent range of MPFR
 (due to a too small <var class="var">emax</var>), the behavior is undefined.
 Note that unlike most functions, the result is compared to the exact one,

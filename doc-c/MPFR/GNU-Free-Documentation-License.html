@@ -1,8 +1,8 @@
 <!-- This manual documents how to install and use the Multiple Precision
-Floating-Point Reliable Library, version 4.2.1.
-Copyright 1991, 1993-2023 Free Software Foundation, Inc.
+Floating-Point Reliable Library, version 4.2.2.
+Copyright 1991, 1993-2025 Free Software Foundation, Inc.
 Permission is granted to copy, distribute and/or modify this document under
-the terms of the GNU Free Documentation License, Version 1.2 or any later
+the terms of the GNU Free Documentation License, Version 1.3 or any later
 version published by the Free Software Foundation; with no Invariant Sections,
 with no Front-Cover Texts, and with no Back-Cover Texts.  A copy of the
 license is included in GNU Free Documentation License. -->
@@ -13,12 +13,11 @@ Next: <a href="constant.Concept_Index.html#start" accesskey="n" rel="next">Conce
 </div>
 <h2 class="appendix" id="GNU-Free-Documentation-License-1"><span>Appendix A GNU Free Documentation License<a class="copiable-link" href="#GNU-Free-Documentation-License-1"> &para;</a></span></h2>
 <a class="index-entry-id" id="index-GNU-Free-Documentation-License"></a>
-<a class="index-entry-id" id="index-GNU-Free-Documentation-License-1"></a>
-<div class="center">Version 1.2, November 2002
+<div class="center">Version 1.3, 3 November 2008
 </div>
 <div class="display">
-<pre class="display-preformatted">Copyright &copy; 2000,2001,2002 Free Software Foundation, Inc.
-51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA
+<pre class="display-preformatted">Copyright &copy; 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+<a class="uref" href="https://fsf.org/">https://fsf.org/</a>
 Everyone is permitted to copy and distribute verbatim copies
 of this license document, but changing it is not allowed.
 </pre></div>
@@ -98,16 +97,16 @@ An image format is not Transparent if used for any substantial amount
 of text.  A copy that is not &ldquo;Transparent&rdquo; is called &ldquo;Opaque&rdquo;.
 </p>
 <p>Examples of suitable formats for Transparent copies include plain
-<small class="sc">ASCII</small> without markup, Texinfo input format, LaTeX input
-format, <abbr class="acronym">SGML</abbr> or <abbr class="acronym">XML</abbr> using a publicly available
-<abbr class="acronym">DTD</abbr>, and standard-conforming simple <abbr class="acronym">HTML</abbr>,
-PostScript or <abbr class="acronym">PDF</abbr> designed for human modification.  Examples
-of transparent image formats include <abbr class="acronym">PNG</abbr>, <abbr class="acronym">XCF</abbr> and
-<abbr class="acronym">JPG</abbr>.  Opaque formats include proprietary formats that can be
-read and edited only by proprietary word processors, <abbr class="acronym">SGML</abbr> or
-<abbr class="acronym">XML</abbr> for which the <abbr class="acronym">DTD</abbr> and/or processing tools are
-not generally available, and the machine-generated <abbr class="acronym">HTML</abbr>,
-PostScript or <abbr class="acronym">PDF</abbr> produced by some word processors for
+ASCII without markup, Texinfo input format, LaTeX input
+format, SGML or XML using a publicly available
+DTD, and standard-conforming simple HTML,
+PostScript or PDF designed for human modification.  Examples
+of transparent image formats include PNG, XCF and
+JPG.  Opaque formats include proprietary formats that can be
+read and edited only by proprietary word processors, SGML or
+XML for which the DTD and/or processing tools are
+not generally available, and the machine-generated HTML,
+PostScript or PDF produced by some word processors for
 output purposes only.
 </p>
 <p>The &ldquo;Title Page&rdquo; means, for a printed book, the title page itself,
@@ -116,6 +115,9 @@ this License requires to appear in the title page.  For works in
 formats which do not have any title page as such, &ldquo;Title Page&rdquo; means
 the text near the most prominent appearance of the work&rsquo;s title,
 preceding the beginning of the body of the text.
+</p>
+<p>The &ldquo;publisher&rdquo; means any person or entity that distributes copies
+of the Document to the public.
 </p>
 <p>A section &ldquo;Entitled XYZ&rdquo; means a named subunit of the Document whose
 title either is precisely XYZ or contains XYZ in parentheses following
@@ -339,20 +341,37 @@ its Title (section 1) will typically require changing the actual
 title.
 </p>
 </li><li> TERMINATION
-<p>You may not copy, modify, sublicense, or distribute the Document except
-as expressly provided for under this License.  Any other attempt to
-copy, modify, sublicense or distribute the Document is void, and will
-automatically terminate your rights under this License.  However,
-parties who have received copies, or rights, from you under this
-License will not have their licenses terminated so long as such
-parties remain in full compliance.
+<p>You may not copy, modify, sublicense, or distribute the Document
+except as expressly provided under this License.  Any attempt
+otherwise to copy, modify, sublicense, or distribute it is void, and
+will automatically terminate your rights under this License.
+</p>
+<p>However, if you cease all violation of this License, then your license
+from a particular copyright holder is reinstated (a) provisionally,
+unless and until the copyright holder explicitly and finally
+terminates your license, and (b) permanently, if the copyright holder
+fails to notify you of the violation by some reasonable means prior to
+60 days after the cessation.
+</p>
+<p>Moreover, your license from a particular copyright holder is
+reinstated permanently if the copyright holder notifies you of the
+violation by some reasonable means, this is the first time you have
+received notice of violation of this License (for any work) from that
+copyright holder, and you cure the violation prior to 30 days after
+your receipt of the notice.
+</p>
+<p>Termination of your rights under this section does not terminate the
+licenses of parties who have received copies or rights from you under
+this License.  If your rights have been terminated and not permanently
+reinstated, receipt of a copy of some or all of the same material does
+not give you any rights to use it.
 </p>
 </li><li> FUTURE REVISIONS OF THIS LICENSE
 <p>The Free Software Foundation may publish new, revised versions
 of the GNU Free Documentation License from time to time.  Such new
 versions will be similar in spirit to the present version, but may
 differ in detail to address new problems or concerns.  See
-<a class="uref" href="https://www.gnu.org/copyleft/">https://www.gnu.org/copyleft/</a>.
+<a class="uref" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.
 </p>
 <p>Each version of the License is given a distinguishing version number.
 If the Document specifies that a particular numbered version of this
@@ -361,13 +380,42 @@ following the terms and conditions either of that specified version or
 of any later version that has been published (not as a draft) by the
 Free Software Foundation.  If the Document does not specify a version
 number of this License, you may choose any version ever published (not
-as a draft) by the Free Software Foundation.
-</p></li></ol>
-<ul class="mini-toc">
-<li><a href="#ADDENDUM_003a-How-to-Use-This-License-For-Your-Documents" accesskey="1">ADDENDUM: How to Use This License For Your Documents</a></li>
-</ul>
-<div class="appendixsec-level-extent" id="ADDENDUM_003a-How-to-Use-This-License-For-Your-Documents">
-<h3 class="appendixsec"><span>A.1 ADDENDUM: How to Use This License For Your Documents<a class="copiable-link" href="#ADDENDUM_003a-How-to-Use-This-License-For-Your-Documents"> &para;</a></span></h3>
+as a draft) by the Free Software Foundation.  If the Document
+specifies that a proxy can decide which future versions of this
+License can be used, that proxy&rsquo;s public statement of acceptance of a
+version permanently authorizes you to choose that version for the
+Document.
+</p>
+</li><li> RELICENSING
+<p>&ldquo;Massive Multiauthor Collaboration Site&rdquo; (or &ldquo;MMC Site&rdquo;) means any
+World Wide Web server that publishes copyrightable works and also
+provides prominent facilities for anybody to edit those works.  A
+public wiki that anybody can edit is an example of such a server.  A
+&ldquo;Massive Multiauthor Collaboration&rdquo; (or &ldquo;MMC&rdquo;) contained in the
+site means any set of copyrightable works thus published on the MMC
+site.
+</p>
+<p>&ldquo;CC-BY-SA&rdquo; means the Creative Commons Attribution-Share Alike 3.0
+license published by Creative Commons Corporation, a not-for-profit
+corporation with a principal place of business in San Francisco,
+California, as well as future copyleft versions of that license
+published by that same organization.
+</p>
+<p>&ldquo;Incorporate&rdquo; means to publish or republish a Document, in whole or
+in part, as part of another Document.
+</p>
+<p>An MMC is &ldquo;eligible for relicensing&rdquo; if it is licensed under this
+License, and if all works that were first published under this License
+somewhere other than this MMC, and subsequently incorporated in whole
+or in part into the MMC, (1) had no cover texts or invariant sections,
+and (2) were thus incorporated prior to November 1, 2008.
+</p>
+<p>The operator of an MMC Site may republish an MMC contained in the site
+under CC-BY-SA on the same site at any time before August 1, 2009,
+provided the MMC is eligible for relicensing.
+</p>
+</li></ol>
+<h3 class="heading" id="ADDENDUM_003a-How-to-use-this-License-for-your-documents"><span>ADDENDUM: How to use this License for your documents<a class="copiable-link" href="#ADDENDUM_003a-How-to-use-this-License-for-your-documents"> &para;</a></span></h3>
 <p>To use this License in a document you have written, include a copy of
 the License in the document and put the following copyright and
 license notices just after the title page:
@@ -375,14 +423,14 @@ license notices just after the title page:
 <div class="example smallexample">
 <div class="group"><pre class="example-preformatted">  Copyright (C)  <var class="var">year</var>  <var class="var">your name</var>.
   Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
+  under the terms of the GNU Free Documentation License, Version 1.3
   or any later version published by the Free Software Foundation;
   with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
   Texts.  A copy of the license is included in the section entitled ``GNU
   Free Documentation License''.
 </pre></div></div>
 <p>If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts,
-replace the &ldquo;with...Texts.&rdquo; line with this:
+replace the &ldquo;with&hellip;Texts.&rdquo; line with this:
 </p>
 <div class="example smallexample">
 <div class="group"><pre class="example-preformatted">    with the Invariant Sections being <var class="var">list their titles</var>, with
@@ -398,7 +446,6 @@ recommend releasing these examples in parallel under your choice of
 free software license, such as the GNU General Public License,
 to permit their use in free software.
 </p>
-</div>
 </div>
 <hr>
 <div class="nav-panel">
