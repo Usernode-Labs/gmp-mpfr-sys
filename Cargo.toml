@@ -7,7 +7,7 @@
 
 [package]
 name = "gmp-mpfr-sys"
-version = "1.6.4"
+version = "1.6.5"
 build = "build.rs"
 categories = ["external-ffi-bindings", "mathematics", "no-std"]
 description = "Rust FFI bindings for GMP, MPFR and MPC."
@@ -21,7 +21,7 @@ repository = "https://gitlab.com/tspiteri/gmp-mpfr-sys"
 rust-version = "1.65"
 
 [dependencies]
-libc = { default-features = false, version = "0.2.44" }
+libc = { default-features = false, version = "0.2.127" }
 
 [features]
 default = ["mpc", "mpfr"]

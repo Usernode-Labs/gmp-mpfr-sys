@@ -24,40 +24,10 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.6.5 news (unreleased)
+### Version 1.6.5 news (2025-03-20)
 
   * [MPFR] was updated from version 4.2.1 to 4.2.2.
   * 32-bit MSYS2 MinGW is no longer tested and mentioned in the documentation.
-
-### Version 1.6.4 news (2024-06-05)
-
-  * The license headers in the documentation for the GNU libraries were being
-    inadvertently removed from the html files ([issue 34]).
-
-[issue 34]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/issues/34
-
-### Version 1.6.3 news (2024-05-30)
-
-  * Make cross-compiling to MinGW use a host understood by [GMP] ([merge request
-    5]).
-
-[merge request 5]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/merge_requests/5
-
-### Version 1.6.2 news (2024-01-20)
-
-  * Bug fix: when using system libs, the build would fail for some cases ([issue
-    32]).
-
-[issue 32]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/issues/32
-
-### Version 1.6.1 news (2023-08-23)
-
-  * [MPFR] was updated from version 4.2.0-p12 to 4.2.1.
-
-### Version 1.6.0 news (2023-07-30)
-
-  * [GMP] was updated from version 6.2.1 to 6.3.0.
-  * [MPFR] was updated from version 4.2.0-p9 to 4.2.0-p12.
 
 ### Other releases
 
