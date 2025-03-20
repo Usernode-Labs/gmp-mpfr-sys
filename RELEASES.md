@@ -9,6 +9,7 @@ Version 1.6.5 (unreleased)
 ==========================
 
   * [MPFR] was updated from version 4.2.1 to 4.2.2.
+  * 32-bit MSYS2 MinGW is no longer tested and mentioned in the documentation.
 
 Version 1.6.4 (2024-06-05)
 ==========================
