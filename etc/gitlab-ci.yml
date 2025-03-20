@@ -12,7 +12,7 @@ before_script:
   - getconf LONG_BIT
   - rustup self update
   - rustup --version
-  - if [ -n "$HOST" ]; then rustup toolchain install --profile minimal beta-$HOST $MSRV-$HOST; fi
+  - if [ -n "$HOST" ]; then rustup toolchain install --force-non-host --profile minimal beta-$HOST $MSRV-$HOST; fi
   - if [ -n "$HOST" ]; then rustup component add --toolchain beta-$HOST rustfmt clippy; fi
   - if [ -d cargo/registry/cache ]; then rm -rf $CARGO_HOME/registry/cache; mkdir -p $CARGO_HOME/registry; cp -R cargo/registry/cache $CARGO_HOME/registry/; echo Copied registry/cache; fi
   - (if cd $CARGO_HOME/registry && [ -d src ]; then rm -r src; fi)
