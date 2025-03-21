@@ -104,6 +104,8 @@ Rug @spaceuref{https://crates.io/crates/rug}
     i\
 
 }' doc/gmp.texi
+# Patch longlong.h to not use mulx, as it is not supported by all x86 architectures.
+sed -i.rm~ 's/#if X86_ASM_MULX /&\&\& 0 /' longlong.h
 cd ..
 
 ## MPFR
