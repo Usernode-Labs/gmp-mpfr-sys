@@ -5,6 +5,14 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.6.6 (2025-03-21)
+==========================
+
+  * Do not use the `mulx` instruction in [GMP] as it does not support all
+    architectures ([Rug issue 79]).
+
+[Rug issue 79]: https://gitlab.com/tspiteri/rug/-/issues/79
+
 Version 1.6.5 (2025-03-20)
 ==========================
 

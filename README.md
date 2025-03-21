@@ -24,6 +24,13 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.6.6 news (2025-03-21)
+
+  * Do not use the `mulx` instruction in [GMP] as it does not support all
+    architectures ([Rug issue 79]).
+
+[Rug issue 79]: https://gitlab.com/tspiteri/rug/-/issues/79
+
 ### Version 1.6.5 news (2025-03-20)
 
   * [MPFR] was updated from version 4.2.1 to 4.2.2.
