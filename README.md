@@ -24,17 +24,11 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
-### Version 1.6.6 news (2025-03-21)
+### Version 1.6.7 news (2025-08-21)
 
-  * Do not use the `mulx` instruction in [GMP] as it does not support all
-    architectures ([Rug issue 79]).
+  * [GMP] was failing to compile on GCC 15 ([issue 39]).
 
-[Rug issue 79]: https://gitlab.com/tspiteri/rug/-/issues/79
-
-### Version 1.6.5 news (2025-03-20)
-
-  * [MPFR] was updated from version 4.2.1 to 4.2.2.
-  * 32-bit MSYS2 MinGW is no longer tested and mentioned in the documentation.
+[issue 39]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/issues/39
 
 ### Other releases
 

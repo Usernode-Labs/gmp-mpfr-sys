@@ -7,7 +7,7 @@
 
 [package]
 name = "gmp-mpfr-sys"
-version = "1.6.6"
+version = "1.6.7"
 build = "build.rs"
 categories = ["external-ffi-bindings", "mathematics", "no-std"]
 description = "Rust FFI bindings for GMP, MPFR and MPC."
@@ -39,4 +39,4 @@ fail-on-warnings = []
 
 [target.'cfg(target_os = "windows")'.build-dependencies.windows-sys]
 features = ["Win32_Foundation", "Win32_Globalization", "Win32_System_Com", "Win32_UI_Shell"]
-version = "0.59"
+version = "0.60"
