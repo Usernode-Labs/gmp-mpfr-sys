@@ -390,7 +390,7 @@ extern "C" {
 /// See: [`mpz_neg`](../C/GMP/constant.Integer_Functions.html#index-mpz_005fneg)
 #[inline]
 pub unsafe extern "C" fn mpz_neg(rop: mpz_ptr, op: mpz_srcptr) {
-    if rop as mpz_srcptr != op {
+    if !ptr::eq(rop, op) {
         unsafe {
             mpz_set(rop, op);
         }
@@ -403,7 +403,7 @@ pub unsafe extern "C" fn mpz_neg(rop: mpz_ptr, op: mpz_srcptr) {
 #[inline]
 pub unsafe extern "C" fn mpz_abs(rop: mpz_ptr, op: mpz_srcptr) {
     unsafe {
-        if rop as mpz_srcptr != op {
+        if !ptr::eq(rop, op) {
             mpz_set(rop, op);
         }
         (*rop).size = (*rop).size.abs();
@@ -1002,7 +1002,7 @@ extern "C" {
 /// See: [`mpq_neg`](../C/GMP/constant.Rational_Number_Functions.html#index-mpq_005fneg)
 #[inline]
 pub unsafe extern "C" fn mpq_neg(negated_operand: mpq_ptr, operand: mpq_srcptr) {
-    if negated_operand as mpq_srcptr != operand {
+    if !ptr::eq(negated_operand, operand) {
         unsafe { mpq_set(negated_operand, operand) };
     }
     unsafe {
@@ -1012,7 +1012,7 @@ pub unsafe extern "C" fn mpq_neg(negated_operand: mpq_ptr, operand: mpq_srcptr) 
 /// See: [`mpq_abs`](../C/GMP/constant.Rational_Number_Functions.html#index-mpq_005fabs)
 #[inline]
 pub unsafe extern "C" fn mpq_abs(rop: mpq_ptr, op: mpq_srcptr) {
-    if rop as mpq_srcptr != op {
+    if !ptr::eq(rop, op) {
         unsafe {
             mpq_set(rop, op);
         }
