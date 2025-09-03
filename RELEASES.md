@@ -5,6 +5,15 @@ modification, are permitted in any medium without royalty provided the
 copyright notice and this notice are preserved. This file is offered
 as-is, without any warranty. -->
 
+Version 1.6.8 (2025-09-03)
+==========================
+
+  * Bug fix: build was failing for some gcc versions ([issue 43], [merge request
+    6]).
+
+[issue 43]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/issues/43
+[merge request 6]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/merge_requests/6
+
 Version 1.6.7 (2025-08-21)
 ==========================
 

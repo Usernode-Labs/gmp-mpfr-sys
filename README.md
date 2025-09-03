@@ -24,6 +24,14 @@ text of the [GNU LGPL] and [GNU GPL] for details.
 
 ## What’s new
 
+### Version 1.6.8 news (2025-09-03)
+
+  * Bug fix: build was failing for some gcc versions ([issue 43], [merge request
+    6]).
+
+[issue 43]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/issues/43
+[merge request 6]: https://gitlab.com/tspiteri/gmp-mpfr-sys/-/merge_requests/6
+
 ### Version 1.6.7 news (2025-08-21)
 
   * [GMP] was failing to compile on GCC 15 ([issue 39]).
