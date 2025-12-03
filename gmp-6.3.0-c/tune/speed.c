@@ -51,15 +51,9 @@ see https://www.gnu.org/licenses/.  */
 #include <unistd.h>  /* for getpid, R_OK */
 #endif
 
-#if TIME_WITH_SYS_TIME
+#include <time.h>
+#if HAVE_SYS_TIME_H
 # include <sys/time.h>  /* for struct timeval */
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
 #endif
 
 #if HAVE_SYS_RESOURCE_H
@@ -136,7 +130,7 @@ struct speed_params  sp;
 
 #define FLAG_R            (1<<0)  /* require ".r" */
 #define FLAG_R_OPTIONAL   (1<<1)  /* optional ".r" */
-#define FLAG_RSIZE        (1<<2)
+#define FLAG_SR_OPTIONAL  (1<<2)  /* optional ".r" or "/r" */
 #define FLAG_NODATA       (1<<3)  /* don't alloc xp, yp */
 
 const struct routine_t {
@@ -334,8 +328,8 @@ const struct routine_t {
   { "mpn_jacobi_base_3", speed_mpn_jacobi_base_3    },
   { "mpn_jacobi_base_4", speed_mpn_jacobi_base_4    },
 
-  { "mpn_mul",           speed_mpn_mul,         FLAG_R_OPTIONAL },
-  { "mpn_mul_basecase",  speed_mpn_mul_basecase,FLAG_R_OPTIONAL },
+  { "mpn_mul",           speed_mpn_mul,         FLAG_SR_OPTIONAL },
+  { "mpn_mul_basecase",  speed_mpn_mul_basecase,FLAG_SR_OPTIONAL },
   { "mpn_sqr_basecase",  speed_mpn_sqr_basecase     },
 #if HAVE_NATIVE_mpn_sqr_diagonal
   { "mpn_sqr_diagonal",  speed_mpn_sqr_diagonal     },
@@ -352,15 +346,17 @@ const struct routine_t {
   { "mpn_toom4_sqr",     speed_mpn_toom4_sqr        },
   { "mpn_toom6_sqr",     speed_mpn_toom6_sqr        },
   { "mpn_toom8_sqr",     speed_mpn_toom8_sqr        },
-  { "mpn_toom22_mul",    speed_mpn_toom22_mul       },
-  { "mpn_toom33_mul",    speed_mpn_toom33_mul       },
-  { "mpn_toom44_mul",    speed_mpn_toom44_mul       },
-  { "mpn_toom6h_mul",    speed_mpn_toom6h_mul       },
-  { "mpn_toom8h_mul",    speed_mpn_toom8h_mul       },
-  { "mpn_toom32_mul",    speed_mpn_toom32_mul       },
-  { "mpn_toom42_mul",    speed_mpn_toom42_mul       },
-  { "mpn_toom43_mul",    speed_mpn_toom43_mul       },
-  { "mpn_toom63_mul",    speed_mpn_toom63_mul       },
+  { "mpn_toom22_mul",    speed_mpn_toom22_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom33_mul",    speed_mpn_toom33_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom44_mul",    speed_mpn_toom44_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom6h_mul",    speed_mpn_toom6h_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom8h_mul",    speed_mpn_toom8h_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom32_mul",    speed_mpn_toom32_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom42_mul",    speed_mpn_toom42_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom43_mul",    speed_mpn_toom43_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom53_mul",    speed_mpn_toom53_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom54_mul",    speed_mpn_toom54_mul, FLAG_SR_OPTIONAL },
+  { "mpn_toom63_mul",    speed_mpn_toom63_mul, FLAG_SR_OPTIONAL },
   { "mpn_nussbaumer_mul",    speed_mpn_nussbaumer_mul    },
   { "mpn_nussbaumer_mul_sqr",speed_mpn_nussbaumer_mul_sqr},
 #if WANT_OLD_FFT_FULL
@@ -582,6 +578,7 @@ const struct routine_t {
 struct choice_t {
   const struct routine_t  *p;
   mp_limb_t               r;
+  double                  size_ratio;
   double                  scale;
   double                  time;
   int                     no_time;
@@ -676,6 +673,7 @@ run_one (FILE *fp, struct speed_params *s, mp_size_t prev_size)
   for (i = 0; i < num_choices; i++)
     {
       s->r = choice[i].r;
+      s->size_ratio = choice[i].size_ratio;
       choice[i].time = speed_measure (choice[i].p->fun, s);
       choice[i].no_time = (choice[i].time == -1.0);
       if (! choice[i].no_time)
@@ -1017,6 +1015,17 @@ r_string (const char *s)
   return n;
 }
 
+double slash_r_string (const char *s)
+{
+  char *end;
+  double r = strtod(s, &end);
+  if (s[0] == '\0' || end[0] != '\0' || r > 1.0 || r < 0.0)
+    {
+      fprintf (stderr, "invalid /r parameter: %s\n", s);
+      exit (1);
+    }
+  return r;
+}
 
 void
 routine_find (struct choice_t *c, const char *s_orig)
@@ -1048,7 +1057,7 @@ routine_find (struct choice_t *c, const char *s_orig)
         {
           /* match, with a .r parameter */
 
-          if (! (routine[i].flag & (FLAG_R|FLAG_R_OPTIONAL)))
+          if (! (routine[i].flag & (FLAG_R|FLAG_R_OPTIONAL|FLAG_SR_OPTIONAL)))
             {
               fprintf (stderr,
                        "Choice %s bad: doesn't take a \".<r>\" parameter\n",
@@ -1058,6 +1067,24 @@ routine_find (struct choice_t *c, const char *s_orig)
 
           c->p = &routine[i];
           c->r = r_string (s + nlen + 1);
+          c->size_ratio = 0.0;
+          return;
+        }
+      if (s[nlen] == '/')
+        {
+          /* match, with a /r parameter */
+
+          if (! (routine[i].flag & (FLAG_SR_OPTIONAL)))
+            {
+              fprintf (stderr,
+                       "Choice %s bad: doesn't take a \"/<r>\" parameter\n",
+                       s_orig);
+              exit (1);
+            }
+
+          c->p = &routine[i];
+          c->r = 0;
+          c->size_ratio = slash_r_string (s + nlen + 1);
           return;
         }
 
@@ -1075,6 +1102,7 @@ routine_find (struct choice_t *c, const char *s_orig)
 
           c->p = &routine[i];
           c->r = 0;
+          c->size_ratio = 0.0;
           return;
         }
     }
@@ -1131,6 +1159,8 @@ usage (void)
         printf ("\t%s.r\n", routine[i].name);
       else if (routine[i].flag & FLAG_R_OPTIONAL)
         printf ("\t%s (optional .r)\n", routine[i].name);
+      else if (routine[i].flag & FLAG_SR_OPTIONAL)
+        printf ("\t%s (optional .r or /r)\n", routine[i].name);
       else
         printf ("\t%s\n", routine[i].name);
     }
@@ -1140,6 +1170,8 @@ usage (void)
   printf ("\n");
   printf ("Special forms for r are \"<N>bits\" for a random N bit number, \"<N>ones\" for\n");
   printf ("N one bits, or \"aas\" for 0xAA..AA.\n");
+  printf ("\n");
+  printf ("Routines with an optional \"/r\" take a decimal ratio, for example mpn_mul/0.7.\n");
   printf ("\n");
   printf ("Times for sizes out of the range accepted by a routine are shown as 0.\n");
   printf ("The fastest routine at each size is marked with a # (free form output only).\n");

@@ -36,8 +36,8 @@ AC_COPYRIGHT(GMP_COPYRIGHT)
 AH_TOP(/*GMP_COPYRIGHT*/)
 
 AC_REVISION($Revision$)
-AC_PREREQ(2.59)
-AC_INIT(GNU MP, GMP_VERSION, [gmp-bugs@gmplib.org (see https://gmplib.org/manual/Reporting-Bugs.html)], gmp)
+AC_PREREQ([2.69])
+AC_INIT([GNU MP],[GMP_VERSION],[gmp-bugs@gmplib.org (see https://gmplib.org/manual/Reporting-Bugs.html)],[gmp])
 AC_CONFIG_SRCDIR(gmp-impl.h)
 m4_pattern_forbid([^[ \t]*GMP_])
 m4_pattern_allow(GMP_LDFLAGS)
@@ -84,7 +84,7 @@ AM_MAINTAINER_MODE
 
 
 AC_ARG_ENABLE(assert,
-AC_HELP_STRING([--enable-assert],[enable ASSERT checking [default=no]]),
+AS_HELP_STRING([--enable-assert],[enable ASSERT checking [default=no]]),
 [case $enableval in
 yes|no) ;;
 *) AC_MSG_ERROR([bad value $enableval for --enable-assert, need yes or no]) ;;
@@ -102,7 +102,7 @@ GMP_DEFINE_RAW(["define(<WANT_ASSERT>,$want_assert_01)"])
 
 
 AC_ARG_ENABLE(alloca,
-AC_HELP_STRING([--enable-alloca],[how to get temp memory [default=reentrant]]),
+AS_HELP_STRING([--enable-alloca],[how to get temp memory [default=reentrant]]),
 [case $enableval in
 alloca|malloc-reentrant|malloc-notreentrant) ;;
 yes|no|reentrant|notreentrant) ;;
@@ -127,7 +127,7 @@ esac],
 # wanted.
 #
 AC_ARG_ENABLE(cxx,
-AC_HELP_STRING([--enable-cxx],[enable C++ support [default=no]]),
+AS_HELP_STRING([--enable-cxx],[enable C++ support [default=no]]),
 [case $enableval in
 yes|no|detect) ;;
 *) AC_MSG_ERROR([bad value $enableval for --enable-cxx, need yes/no/detect]) ;;
@@ -136,7 +136,7 @@ esac],
 
 
 AC_ARG_ENABLE(assembly,
-AC_HELP_STRING([--enable-assembly],[enable the use of assembly loops [default=yes]]),
+AS_HELP_STRING([--enable-assembly],[enable the use of assembly loops [default=yes]]),
 [case $enableval in
 yes|no) ;;
 *) AC_MSG_ERROR([bad value $enableval for --enable-assembly, need yes or no]) ;;
@@ -145,7 +145,7 @@ esac],
 
 
 AC_ARG_ENABLE(fft,
-AC_HELP_STRING([--enable-fft],[enable FFTs for multiplication [default=yes]]),
+AS_HELP_STRING([--enable-fft],[enable FFTs for multiplication [default=yes]]),
 [case $enableval in
 yes|no) ;;
 *) AC_MSG_ERROR([bad value $enableval for --enable-fft, need yes or no]) ;;
@@ -159,7 +159,7 @@ fi
 
 
 AC_ARG_ENABLE(old-fft-full,
-AC_HELP_STRING([--enable-old-fft-full],[enable old mpn_mul_fft_full for multiplication [default=no]]),
+AS_HELP_STRING([--enable-old-fft-full],[enable old mpn_mul_fft_full for multiplication [default=no]]),
 [case $enableval in
 yes|no) ;;
 *) AC_MSG_ERROR([bad value $enableval for --enable-old-fft-full, need yes or no]) ;;
@@ -173,7 +173,7 @@ fi
 
 
 AC_ARG_ENABLE(nails,
-AC_HELP_STRING([--enable-nails],[use nails on limbs [default=no]]),
+AS_HELP_STRING([--enable-nails],[use nails on limbs [default=no]]),
 [case $enableval in
 [yes|no|[02468]|[0-9][02468]]) ;;
 [*[13579]])
@@ -192,7 +192,7 @@ AC_SUBST(GMP_NAIL_BITS)
 
 
 AC_ARG_ENABLE(profiling,
-AC_HELP_STRING([--enable-profiling],
+AS_HELP_STRING([--enable-profiling],
                [build with profiler support [default=no]]),
 [case $enableval in
 no|prof|gprof|instrument) ;;
@@ -226,7 +226,7 @@ fi
 
 
 AC_ARG_WITH(readline,
-AC_HELP_STRING([--with-readline],
+AS_HELP_STRING([--with-readline],
                [readline support in demo programs [default=detect]]),
 [case $withval in
 yes|no|detect) ;;
@@ -236,7 +236,7 @@ esac],
 
 
 AC_ARG_ENABLE(fat,
-AC_HELP_STRING([--enable-fat],
+AS_HELP_STRING([--enable-fat],
                [build fat libraries on systems that support it [default=no]]),
 [case $enableval in
 yes|no) ;;
@@ -246,7 +246,7 @@ esac],
 
 
 AC_ARG_ENABLE(minithres,
-AC_HELP_STRING([--enable-minithres],
+AS_HELP_STRING([--enable-minithres],
                [choose minimal thresholds for testing [default=no]]),
 [case $enableval in
 yes|no) ;;
@@ -256,7 +256,7 @@ esac],
 
 
 AC_ARG_ENABLE(fake-cpuid,
-AC_HELP_STRING([--enable-fake-cpuid],[enable GMP_CPU_TYPE faking cpuid [default=no]]),
+AS_HELP_STRING([--enable-fake-cpuid],[enable GMP_CPU_TYPE faking cpuid [default=no]]),
 [case $enableval in
 yes|no) ;;
 *) AC_MSG_ERROR([bad value $enableval for --enable-fake-cpuid, need yes or no]) ;;
@@ -368,7 +368,7 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
 # After GMP specific searches and tests, the standard autoconf AC_PROG_CC is
 # called.  User selections of CC etc are respected.
 #
-# Care is taken not to use macros like AC_TRY_COMPILE during the GMP
+# Care is taken not to use macros like AC_COMPILE_IFELSE during the GMP
 # pre-testing, since they of course depend on AC_PROG_CC, and also some of
 # them cache their results, which is not wanted.
 #
@@ -1935,6 +1935,13 @@ case $host in
 	x86_have_mulx=yes
 	path_64="x86_64/zen3 x86_64/zen2 x86_64/zen x86_64"
 	;;
+      zen5 | zen5noavx)
+	gcc_cflags_cpu="-mtune=znver5 -mtune=znver1 -mtune=amdfam10 -mtune=k8"
+	gcc_cflags_arch="-march=znver5 -march=znver1 -march=amdfam10 -march=k8"
+	path="x86/k7/mmx x86/k7 x86/mmx x86"
+	x86_have_mulx=yes
+	path_64="x86_64/zen5 x86_64/zen x86_64"
+	;;
       core2)
 	gcc_cflags_cpu="-mtune=core2 -mtune=k8"
 	gcc_cflags_arch="-march=core2 -march=core2~-mno-sse2 -march=k8 -march=k8~-mno-sse2"
@@ -2088,7 +2095,7 @@ case $host in
   # Special CPU "none" used to select generic C, now this is obsolete.
   none-*-*)
     enable_assembly=no
-    AC_MSG_WARN([the \"none\" host is obsolete, use --disable-assembly])
+    AC_MSG_WARN([the "none" host is obsolete, use --disable-assembly])
     ;;
 
 esac
@@ -2109,7 +2116,7 @@ esac
 CFLAGS_or_unset=${CFLAGS-'(unset)'}
 CPPFLAGS_or_unset=${CPPFLAGS-'(unset)'}
 
-cat >&AC_FD_CC <<EOF
+cat >&AS_MESSAGE_LOG_FD <<EOF
 User:
 ABI=$ABI
 CC=$CC
@@ -2561,7 +2568,7 @@ if test $enable_cxx != no; then
   test_CXXFLAGS=${CXXFLAGS+set}
   AC_PROG_CXX
 
-  echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AC_FD_CC
+  echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AS_MESSAGE_LOG_FD
   cxxflags_ac_prog_cxx=$CXXFLAGS
   cxxflags_list=ac_prog_cxx
 
@@ -2601,7 +2608,7 @@ fi
 AM_CONDITIONAL(WANT_CXX, test $want_cxx = yes)
 
 # FIXME: We're not interested in CXXCPP for ourselves, but if we don't do it
-# here then AC_PROG_LIBTOOL will AC_REQUIRE it (via _LT_AC_TAGCONFIG) and
+# here then LT_INIT will AC_REQUIRE it (via _LT_AC_TAGCONFIG) and
 # hence execute it unconditionally, and that will fail if there's no C++
 # compiler (and no generic /lib/cpp).
 #
@@ -2677,7 +2684,7 @@ if test "$enable_assembly" = "no"; then
 fi
 
 
-cat >&AC_FD_CC <<EOF
+cat >&AS_MESSAGE_LOG_FD <<EOF
 Decided:
 ABI=$ABI
 CC=$CC
@@ -2701,6 +2708,10 @@ echo "      MPN_PATH=\"$path\""
 
 CL_AS_NOEXECSTACK
 
+AC_PROG_SED
+# FIXME: AC_PROG_SED above is a hack (LT_PATH_NM uses $SED), it normally
+# happens as part of LT_INIT, and we are not supposed to call LT_PATH_NM before
+# LT_INIT, but the comments in acinclude.m4 say we want it before LT_INIT...
 GMP_PROG_AR
 GMP_PROG_NM
 
@@ -2803,7 +2814,7 @@ if test "${with_tags+set}" != set; then
   fi
 fi
 
-# The dead hand of AC_REQUIRE makes AC_PROG_LIBTOOL expand and execute
+# The dead hand of AC_REQUIRE makes LT_INIT expand and execute
 # AC_PROG_F77, even when F77 is not in the selected with_tags.  This is
 # probably harmless, but it's unsightly and bloats our configure, so pretend
 # AC_PROG_F77 has been expanded already.
@@ -2813,7 +2824,7 @@ fi
 #
 #AC_PROVIDE([AC_PROG_F77])
 
-AC_PROG_LIBTOOL
+LT_INIT
 
 # Generate an error here if attempting to build both shared and static when
 # $libname.a is in $library_names_spec (as mentioned above), rather than
@@ -2829,12 +2840,6 @@ fi
 
 AM_CONDITIONAL(ENABLE_STATIC, test "$enable_static" = yes)
 
-
-# Many of these library and header checks are for the benefit of
-# supplementary programs.  libgmp doesn't use anything too weird.
-
-AC_HEADER_STDC
-AC_HEADER_TIME
 
 # Reasons for testing:
 #   float.h - not in SunOS bundled cc
@@ -2865,15 +2870,9 @@ AC_CHECK_HEADERS(fcntl.h float.h invent.h langinfo.h locale.h nl_types.h sys/att
 
 # On SunOS, sys/resource.h needs sys/time.h (for struct timeval)
 AC_CHECK_HEADERS(sys/resource.h,,,
-[#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
+[#include <time.h>
+#if HAVE_SYS_TIME_H
+# include <sys/time.h>  /* for struct timeval */
 #endif])
 
 # On NetBSD and OpenBSD, sys/sysctl.h needs sys/param.h for various constants
@@ -2903,8 +2902,6 @@ AC_CHECK_DECLS([fgetc, fscanf, optarg, ungetc, vfprintf])
 AC_CHECK_DECLS([sys_errlist, sys_nerr], , ,
 [#include <stdio.h>
 #include <errno.h>])
-
-AC_TYPE_SIGNAL
 
 # Reasons for testing:
 #   intmax_t       - C99
@@ -2936,7 +2933,7 @@ GMP_C_HIDDEN_ALIAS
 GMP_H_EXTERN_INLINE
 
 # from libtool
-AC_CHECK_LIBM
+LT_LIB_M
 AC_SUBST(LIBM)
 
 GMP_FUNC_ALLOCA
@@ -3767,7 +3764,7 @@ if test "$gmp_asm_syntax_testing" != no; then
 	  GMP_INCLUDE_MPN(arm/arm-defs.m4) ;;
         64)
 	  case $host in
-	    *-*-darwin*)
+	    *-*-darwin* | *-apple-ios*)
 	      GMP_INCLUDE_MPN(arm64/darwin.m4) ;;
 	    *)
 	      GMP_INCLUDE_MPN(arm64/arm64-defs.m4) ;;
@@ -3819,7 +3816,7 @@ yes
 	    mode32 | 32) GMP_INCLUDE_MPN(powerpc32/elf.m4) ;;
           esac
           ;;
-        *-*-darwin*)
+        *-*-darwin* | *-apple-ios*)
 	  case $ABI in
 	    mode64)      GMP_INCLUDE_MPN(powerpc64/darwin.m4) ;;
 	    mode32 | 32) GMP_INCLUDE_MPN(powerpc32/darwin.m4) ;;
@@ -3859,7 +3856,7 @@ yes
 	    prof | gprof)  GMP_ASM_X86_MCOUNT ;;
 	  esac
 	  case $host in
-	    *-*-darwin*)
+	    *-*-darwin* | *-apple-ios*)
 	      GMP_INCLUDE_MPN(x86/darwin.m4) ;;
 	  esac
           ;;
@@ -3867,7 +3864,7 @@ yes
           GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
           AC_DEFINE(HAVE_HOST_CPU_FAMILY_x86_64)
 	  case $host in
-	    *-*-darwin*)
+	    *-*-darwin* | *-apple-ios*)
 	      GMP_INCLUDE_MPN(x86_64/darwin.m4) ;;
 	    *-*-mingw* | *-*-msys | *-*-cygwin)
 	      GMP_INCLUDE_MPN(x86_64/dos64.m4) ;;
@@ -4061,25 +4058,22 @@ fi
 AC_PROG_YACC
 AM_PROG_LEX
 
-LT_INIT
-
 # Create config.m4.
 GMP_FINISH
 
 # Create Makefiles
-# FIXME: Upcoming version of autoconf/automake may not like broken lines.
-#        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
 
-AC_OUTPUT(Makefile							\
-  mpf/Makefile mpn/Makefile mpq/Makefile				\
-  mpz/Makefile printf/Makefile scanf/Makefile rand/Makefile cxx/Makefile \
+AC_CONFIG_FILES([Makefile						\
+  mpf/Makefile mpn/Makefile mpq/Makefile mpz/Makefile			\
+  printf/Makefile scanf/Makefile rand/Makefile cxx/Makefile		\
   tests/Makefile tests/devel/Makefile					\
   tests/mpf/Makefile tests/mpn/Makefile tests/mpq/Makefile		\
   tests/mpz/Makefile tests/rand/Makefile tests/misc/Makefile		\
   tests/cxx/Makefile							\
   doc/Makefile tune/Makefile						\
   demos/Makefile demos/calc/Makefile demos/expr/Makefile		\
-  gmp.h:gmp-h.in gmp.pc:gmp.pc.in gmpxx.pc:gmpxx.pc.in)
+  gmp.h:gmp-h.in gmp.pc:gmp.pc.in gmpxx.pc:gmpxx.pc.in])
+AC_OUTPUT
 
 AC_MSG_NOTICE([summary of build options:
 

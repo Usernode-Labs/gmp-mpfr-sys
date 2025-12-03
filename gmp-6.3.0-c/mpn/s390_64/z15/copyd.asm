@@ -1,4 +1,4 @@
-dnl  S/390-64 mpn_popcount
+dnl  S/390-64 mpn_copyi
 
 dnl  Copyright 2023 Free Software Foundation, Inc.
 
@@ -28,42 +28,50 @@ dnl  You should have received copies of the GNU General Public License and the
 dnl  GNU Lesser General Public License along with the GNU MP Library.  If not,
 dnl  see https://www.gnu.org/licenses/.
 
+
 include(`../config.m4')
 
 C            cycles/limb
 C z900		 -
-C z990		 -
+C z990           -
 C z9		 -
 C z10		 -
 C z196		 -
-C z12		 ?
-C z13		 ?
-C z14		 ?
-C z15		 ?
+C z12		 -
+C z13		 -
+C z14		 -
+C z15		 0.62	(@4.2)
 
-define(`ap',	`%r2')
-define(`n',	`%r3')
+C NOTE
+C  * This code is inspired by GNU libc memcpy which was written by Martin
+C    Schwidefsky.
+
+C INPUT PARAMETERS
+define(`rp',	`%r2')
+define(`up',	`%r3')
+define(`n',	`%r4')
 
 ASM_START()
-PROLOGUE(mpn_popcount)
-	vzero	%v30
-	tmll	n, 1
-	srlg	n, n, 1
-	je	L(top)
+PROLOGUE(mpn_copyd)
+	clgije	n, 0, L(rtn)
+	sllg	%r4, %r4, 3
+	la	rp, 0(%r4,rp)
+	la	up, 0(%r4,up)
+	aghi	%r4, -1
+	srlg	%r5, %r4, 8
+	lghi	%r0, 255
+	clgije	%r5, 0, L(1)
 
-L(odd):	vllezg	%v16, 0(ap)
-	vpopct	%v30, %v16, 3
-	la	ap, 8(ap)
-	clgije	n, 0, L(end)
+L(top):	lay	rp, -256(rp)
+	lay	up, -256(up)
+	mvcrl	0(rp), 0(up)
+	brctg	%r5, L(top)
 
-L(top):	vl	%v16, 0(ap), 3
-	vpopct	%v20, %v16, 3
-	vag	%v30, %v30, %v20
-	la	ap, 16(ap)
-	brctg	n, L(top)
-
-L(end):	vzero	%v29
-	vsumqg	%v30, %v30, %v29
-	vlgvg	%r2, %v30, 1(%r0)
-	br	%r14
+L(1):	ngr	%r0, %r4
+	nngrk	%r1, %r0, %r0
+	la	rp, 0(%r1,rp)
+	la	up, 0(%r1,up)
+	mvcrl	0(rp), 0(up)
+L(rtn):	br	%r14
 EPILOGUE()
+	.section .note.GNU-stack

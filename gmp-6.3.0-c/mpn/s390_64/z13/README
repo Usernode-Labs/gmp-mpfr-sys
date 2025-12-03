@@ -1,6 +1,4 @@
-/* mul_1 for IBM z13 or later
-
-Copyright 2021 Free Software Foundation, Inc.
+Copyright 2023 Free Software Foundation, Inc.
 
 This file is part of the GNU MP Library.
 
@@ -26,6 +24,14 @@ for more details.
 
 You should have received copies of the GNU General Public License and the
 GNU Lesser General Public License along with the GNU MP Library.  If not,
-see https://www.gnu.org/licenses/.  */
+see https://www.gnu.org/licenses/.
 
-#include "s390_64/z13/addmul_1.c"
+
+
+The code in this directory makes use of vector instructions added with z13.
+These vector instructions are well-designed and naturally much more modern than
+the legacy of S/390 instructions.  From GMP's perspective, the full set of
+128-bit addition and subtraction, with register-based carry in and out, are
+very useful.  Unfortunately, the multiply support is unexpectedly limited,
+forcing GMP to use the the legacy mlg/mlgr instructions, juggling results
+between plain and vector registers.

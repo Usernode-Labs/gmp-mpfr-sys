@@ -264,6 +264,28 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
 	      }
 	    goto next;
 
+	  case 'A':
+	  case 'a':
+	    /* 6 for the 2 signs, 0x, point and p.
+	     * The exponent is decimal, the rest hexa, pretend everything is
+	     * the exponent. The right factor is more like 2.4.
+	     * + 2 extra margin for error.
+	     * prec + width are added later. */
+	    total_width += 6 + floating_sizeof * 3 + 2;
+	    if (type == 'L')
+	      {
+#if HAVE_LONG_DOUBLE
+		(void) va_arg (ap, long double);
+#else
+		ASSERT_FAIL (long double not available);
+#endif
+	      }
+	    else
+	      {
+		(void) va_arg (ap, double);
+	      }
+	    goto next;
+
 	  case 'h':  /* short or char */
 	  case 'j':  /* intmax_t */
 	  case 'L':  /* long long or long double */
@@ -364,16 +386,14 @@ __gmp_replacement_vsnprintf (char *buf, size_t buf_size,
 
   if (total_width <= buf_size)
     {
-      vsprintf (buf, orig_fmt, orig_ap);
-      len = strlen (buf);
+      len = vsprintf (buf, orig_fmt, orig_ap);
     }
   else
     {
       char  *s;
 
       s = __GMP_ALLOCATE_FUNC_TYPE (total_width, char);
-      vsprintf (s, orig_fmt, orig_ap);
-      len = strlen (s);
+      len = vsprintf (s, orig_fmt, orig_ap);
       if (buf_size != 0)
 	{
 	  size_t  copylen = MIN (len, buf_size-1);

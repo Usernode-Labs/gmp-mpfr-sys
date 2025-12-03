@@ -97,9 +97,28 @@ fn main() {
     let host = cargo_env("HOST")
         .into_string()
         .expect("env var HOST having sensible characters");
-    let raw_target = cargo_env("TARGET")
+    let mut raw_target = cargo_env("TARGET")
         .into_string()
         .expect("env var TARGET having sensible characters");
+    if raw_target.ends_with("-ios-sim") {
+        raw_target = raw_target.replace("-ios-sim", "-ios");
+    }
+    if raw_target.contains("apple-ios") {
+        // Seed GMP asm probes for iOS toolchains to bypass the failing word-size detection
+        let pairs = [
+            ("gmp_cv_asm_w32", ".long"),
+            ("gmp_cv_asm_w64", ".quad"),
+            ("gmp_cv_asm_data", ".data"),
+            ("gmp_cv_asm_byte", ".byte"),
+            ("gmp_cv_asm_globl", ".globl"),
+            ("gmp_cv_asm_label_suffix", ":"),
+        ];
+        for (key, val) in pairs {
+            if env::var_os(key).is_none() {
+                env::set_var(key, val);
+            }
+        }
+    }
     let force_cross = there_is_env("CARGO_FEATURE_FORCE_CROSS");
     if !force_cross && !compilation_target_allowed(&host, &raw_target) {
         panic!(

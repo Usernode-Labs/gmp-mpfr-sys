@@ -8,7 +8,7 @@
    With the current implementation, the first 24 MR-tests are substituted by a
    Baillie-PSW probable prime test.
 
-   This implementation of the Baillie-PSW test was checked up to 2463*10^12,
+   This implementation of the Baillie-PSW test was checked up to 2640*10^12,
    for smaller values no MR-test is performed, regardless of reps, and
    2 ("surely prime") is returned if the number was not proved composite.
 
@@ -19,7 +19,7 @@
    CERTAIN TO BE SUBJECT TO INCOMPATIBLE CHANGES OR DISAPPEAR COMPLETELY IN
    FUTURE GNU MP RELEASES.
 
-Copyright 1991, 1993, 1994, 1996-2002, 2005, 2014, 2018-2022 Free
+Copyright 1991, 1993, 1994, 1996-2002, 2005, 2014, 2018-2022, 2024 Free
 Software Foundation, Inc.
 
 Contributed by John Amanatides.
@@ -57,9 +57,54 @@ see https://www.gnu.org/licenses/.  */
 #define GMP_BPSW_NOFALSEPOSITIVES_UPTO_64BITS 0
 #endif
 
-static int millerrabin (mpz_srcptr,
-			mpz_ptr, mpz_ptr,
-			mpz_srcptr, unsigned long int);
+static int
+mod_eq_m1 (mpz_srcptr x, mpz_srcptr m)
+{
+  mp_size_t ms;
+  mp_srcptr mp, xp;
+
+  ms = SIZ (m);
+  if (SIZ (x) != ms)
+    return 0;
+  ASSERT (ms > 0);
+
+  mp = PTR (m);
+  xp = PTR (x);
+  ASSERT ((mp[0] - 1) == (mp[0] ^ 1)); /* n is odd */
+
+  if ((*xp ^ CNST_LIMB(1) ^ *mp) != CNST_LIMB(0)) /* xp[0] != mp[0] - 1 */
+    return 0;
+  else
+    {
+      int cmp;
+
+      --ms;
+      ++xp;
+      ++mp;
+
+      MPN_CMP (cmp, xp, mp, ms);
+
+      return cmp == 0;
+    }
+}
+
+static int
+millerrabin (mpz_srcptr n, mpz_ptr x, mpz_ptr y,
+	     mpz_srcptr q, mp_bitcnt_t k)
+{
+  mpz_powm (y, x, q, n);
+
+  if (mpz_cmp_ui (y, 1L) == 0 || mod_eq_m1 (y, n))
+    return 1;
+
+  for (mp_bitcnt_t i = 1; i < k; ++i)
+    {
+      mpz_powm_ui (y, y, 2L, n);
+      if (mod_eq_m1 (y, n))
+	return 1;
+    }
+  return 0;
+}
 
 int
 mpz_millerrabin (mpz_srcptr n, int reps)
@@ -101,12 +146,12 @@ mpz_millerrabin (mpz_srcptr n, int reps)
 	  || SIZ (n) - 64 / GMP_NUMB_BITS == (PTR (n) [64 / GMP_NUMB_BITS] < CNST_LIMB(1) << 64 % GMP_NUMB_BITS)
 #endif
 #else
-	  /* Consider numbers up to 35*2^46 that pass the BPSW test as primes.
-	     This implementation was tested up to 2463*10^12 > 2^51+2^47+2^46 */
-	  /* 2^5 < 35 = 0b100011 < 2^6 */
-#define GMP_BPSW_LIMB_CONST CNST_LIMB(35)
-#define GMP_BPSW_BITS_CONST (LOG2C(35) - 1)
-#define GMP_BPSW_BITS_LIMIT (46 + GMP_BPSW_BITS_CONST)
+	  /* Consider numbers up to 75*2^45 that pass the BPSW test as primes.
+	     This implementation was tested up to 264*10^13 > 2^51+2^48+2^46+2^45 */
+	  /* 2^6 < 75 = 0b1001011 < 2^7 */
+#define GMP_BPSW_LIMB_CONST CNST_LIMB(75)
+#define GMP_BPSW_BITS_CONST (LOG2C(75) - 1)
+#define GMP_BPSW_BITS_LIMIT (45 + GMP_BPSW_BITS_CONST)
 
 #define GMP_BPSW_LIMBS_LIMIT (GMP_BPSW_BITS_LIMIT / GMP_NUMB_BITS)
 #define GMP_BPSW_BITS_MOD (GMP_BPSW_BITS_LIMIT % GMP_NUMB_BITS)
@@ -164,53 +209,4 @@ mpz_millerrabin (mpz_srcptr n, int reps)
     }
   TMP_FREE;
   return is_prime;
-}
-
-static int
-mod_eq_m1 (mpz_srcptr x, mpz_srcptr m)
-{
-  mp_size_t ms;
-  mp_srcptr mp, xp;
-
-  ms = SIZ (m);
-  if (SIZ (x) != ms)
-    return 0;
-  ASSERT (ms > 0);
-
-  mp = PTR (m);
-  xp = PTR (x);
-  ASSERT ((mp[0] - 1) == (mp[0] ^ 1)); /* n is odd */
-
-  if ((*xp ^ CNST_LIMB(1) ^ *mp) != CNST_LIMB(0)) /* xp[0] != mp[0] - 1 */
-    return 0;
-  else
-    {
-      int cmp;
-
-      --ms;
-      ++xp;
-      ++mp;
-
-      MPN_CMP (cmp, xp, mp, ms);
-
-      return cmp == 0;
-    }
-}
-
-static int
-millerrabin (mpz_srcptr n, mpz_ptr x, mpz_ptr y,
-	     mpz_srcptr q, mp_bitcnt_t k)
-{
-  mpz_powm (y, x, q, n);
-
-  if (mpz_cmp_ui (y, 1L) == 0 || mod_eq_m1 (y, n))
-    return 1;
-
-  for (mp_bitcnt_t i = 1; i < k; ++i)
-    {
-      mpz_powm_ui (y, y, 2L, n);
-      if (mod_eq_m1 (y, n))
-	return 1;
-    }
-  return 0;
 }

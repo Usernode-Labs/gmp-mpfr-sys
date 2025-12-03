@@ -1,3 +1,24 @@
+2024-10-18  Niels Möller  <nisse@lysator.liu.se>
+
+	* mini-gmp.c (mpn_gcd): New function.
+	(mpz_gcd): Use mpn_gcd.
+	* mini-gmp.h: Add declaration of mpn_gcd.
+	* tests/t-gcd.c (test_one): Add testing of mpn_gcd.
+
+2024-03-25 Marco Bodrato <bodrato@mail.dm.unipi.it>
+
+	* tests/t-import.c: Do not print unused value.
+
+2024-02-18  Niels Möller  <nisse@lysator.liu.se>
+
+	* mini-gmp.c (mpz_gcdext): Fix logic to canonicalize cofactors.
+	Bug reported by Guido Vranken.
+
+	* tests/t-gcd.c (gcdext_valid_p): Stricter check that cofactors
+	match the documented behavior.
+	(test_one): New function, extracted from testmain.
+	(testmain): Add exhaustive tests for all inputs |a|, |b| <= 30.
+
 2023-07-20  Niels Möller  <nisse@lysator.liu.se>
 
 	* mini-gmp.c (gmp_umullo_limb): New macro, to avoid unintended
