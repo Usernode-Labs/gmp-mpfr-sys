@@ -86,6 +86,11 @@ fn main() {
     // Prefer target-scoped toolchain env vars (used by cargo-ndk/cargokit) when global ones
     // are not provided. This matters for Android, where only CC_<target>/AR_<target> are set.
     let cc = env::var_os("CC").or_else(|| env::var_os(format!("CC_{raw_target}")));
+    if env::var_os("CC").is_none() {
+        if let Some(ref cc_val) = cc {
+            env::set_var("CC", cc_val);
+        }
+    }
     if env::var_os("AR").is_none() {
         if let Some(ar) = env::var_os(format!("AR_{raw_target}")) {
             env::set_var("AR", ar);
