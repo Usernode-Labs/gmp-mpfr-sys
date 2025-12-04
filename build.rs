@@ -74,7 +74,40 @@ struct Environment {
 fn main() {
     let rustc = cargo_env("RUSTC");
 
-    let cc = env::var_os("CC");
+    let host = cargo_env("HOST")
+        .into_string()
+        .expect("env var HOST having sensible characters");
+    let mut raw_target = cargo_env("TARGET")
+        .into_string()
+        .expect("env var TARGET having sensible characters");
+    if raw_target.ends_with("-ios-sim") {
+        raw_target = raw_target.replace("-ios-sim", "-ios");
+    }
+    // Prefer target-scoped toolchain env vars (used by cargo-ndk/cargokit) when global ones
+    // are not provided. This matters for Android, where only CC_<target>/AR_<target> are set.
+    let cc = env::var_os("CC").or_else(|| env::var_os(format!("CC_{raw_target}")));
+    if env::var_os("AR").is_none() {
+        if let Some(ar) = env::var_os(format!("AR_{raw_target}")) {
+            env::set_var("AR", ar);
+        }
+    }
+    if env::var_os("NM").is_none() {
+        if let Some(nm) = env::var_os(format!("NM_{raw_target}")) {
+            env::set_var("NM", nm);
+        }
+    }
+    if env::var_os("RANLIB").is_none() {
+        if let Some(ranlib) = env::var_os(format!("RANLIB_{raw_target}")) {
+            env::set_var("RANLIB", ranlib);
+        }
+    }
+
+    let cflags = env::var_os("CFLAGS").or_else(|| env::var_os(format!("CFLAGS_{raw_target}")));
+    if let Some(ref cflags) = cflags {
+        // Propagate target-specific CFLAGS to the generic name so configure picks them up.
+        env::set_var("CFLAGS", cflags);
+    }
+
     let cc_cache_dir = cc.as_ref().map(|cc| {
         let mut dir = OsString::from("CC-");
         dir.push(cc);
@@ -82,7 +115,6 @@ fn main() {
     });
     let c_compiler = cc.unwrap_or_else(|| "gcc".into());
 
-    let cflags = env::var_os("CFLAGS");
     let cflags_cache_dir = cflags.as_ref().map(|cflags| {
         #[allow(deprecated)]
         {
@@ -93,16 +125,6 @@ fn main() {
             OsString::from(format!("CFLAGS-{hash:016X}"))
         }
     });
-
-    let host = cargo_env("HOST")
-        .into_string()
-        .expect("env var HOST having sensible characters");
-    let mut raw_target = cargo_env("TARGET")
-        .into_string()
-        .expect("env var TARGET having sensible characters");
-    if raw_target.ends_with("-ios-sim") {
-        raw_target = raw_target.replace("-ios-sim", "-ios");
-    }
     if raw_target.contains("apple-ios") {
         // Seed GMP asm probes for iOS toolchains to bypass the failing word-size detection
         let pairs = [
